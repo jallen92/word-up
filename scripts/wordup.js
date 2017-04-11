@@ -115,6 +115,7 @@ function render() {
 
     // TODO 2
     // Update the curent time remaining on the scoreboard.
+    $("#time-remaining").text(model.secondsRemaining);
 
 
     // if the game has not started yet, just hide the #game container and exit
@@ -130,6 +131,9 @@ function render() {
     $("#word-submissions").empty();
     // TODO 10
     // Add a few things to the above code block (underneath "// clear stuff").
+    $("#textbox").removeClass("bad-attempt");
+    $(".tag-danger").remove();
+    $("#textbox").prop("disabled", false);
 
 
     // reveal the #game container
@@ -147,7 +151,7 @@ function render() {
     $("#textbox").val(model.currentAttempt);
     // TODO 3
     // Give focus to the textbox.
-
+    $( "#textbox" ).focus();
 
     // if the current word attempt contains disallowed letters,
     var disallowedLetters = disallowedLettersInWord(model.currentAttempt);
@@ -160,6 +164,7 @@ function render() {
 
         // TODO 8
         // append the red letter chips to the form
+        $("#word-attempt-form").append(redLetterChips);
 
     }
 
@@ -168,7 +173,8 @@ function render() {
     if (gameOver) {
         // TODO 9
         // disable the text box and clear its contents
-
+        $("#textbox").prop("disabled", true);
+        $("#textbox").val("");
     }
 }
 
@@ -243,6 +249,11 @@ $(document).ready(function() {
     // When the textbox content changes,
     // update the .currentAttempt property of the model and re-render
 
+    $("#textbox").on("input",function(){
+        model.currentAttempt = $("#textbox").val();
+        render();
+    });
+
 
     // when the form is submitted
     $("#word-attempt-form").submit(function(evt) {
@@ -280,7 +291,10 @@ function isDisallowedLetter(letter) {
     // TODO 7
     // This should return true if the letter is not an element of
     // the .allowedLetters list in the model
-    return false;
+    if (model.allowedLetters.indexOf(letter) !== -1){
+        return false;
+    } else{
+        return true; }
 }
 
 /**
