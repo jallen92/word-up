@@ -86,7 +86,7 @@ function checkIfWordIsReal(word) {
     // make an AJAX call to the Pearson API
     $.ajax({
         // TODO 13 what should the url be?
-        url: "http://api.pearson.com/v2/dictionaries/lasde/entries",
+        url: "https://api.pearson.com/v2/dictionaries/lasde/entries",
         data: {headword: word},
         success: function(response) {
             console.log("We received a response from Pearson!");
